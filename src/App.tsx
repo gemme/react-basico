@@ -1,7 +1,7 @@
 
 import './App.css'
 import { Component, useState, useEffect } from 'react';
-
+import {UserList} from './components/UserList';
 
 // class
 // stateful components
@@ -28,6 +28,8 @@ interface State {
 // LEGACY React 18
 class Counter extends Component<Props, State>{
 
+  id: number | undefined =undefined;
+
   constructor(props:Props){
     super(props);
     this.state = {
@@ -35,12 +37,22 @@ class Counter extends Component<Props, State>{
     }
   }
 
+  componentWillUnmount(): void {
+    clearInterval(this.id);
+  }
+
   componentDidMount(): void {
-    setInterval(() => {
+    this.id = setInterval(() => {
       this.setState({
         count: this.state.count + 1
       })
     }, 1000);
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
+    console.log('componentDidUpdate', this.id);
+    
+
   }
 
 
@@ -48,7 +60,7 @@ class Counter extends Component<Props, State>{
     return (
       <div>
         <h1>Counter</h1>
-        <div>{this.state.count}</div>
+        <h2>{this.state.count}</h2>
       </div>
     )
   }
@@ -67,20 +79,48 @@ function CounterFunction (){
   // componentDidMount
   useEffect(()=>{
     const id = setInterval(()=> {
-      setCount(count => count + 20);
+      setCount(count => count + 100);
     }, 1000);
 
+    // componentWillUnmount
     return () => {
       clearInterval(id);
     }
+    // componentDidMount
   }, []);
+
+
+
+  useEffect(()=>{
+    console.log('componentDidUpdate::function');
+  }, [ count  ]);
+
+  return (
+    <DisplayValue count={count}/>
+  );
+}
+
+interface DisplayValueProps {
+  // required
+  count: number;
+}
+
+function DisplayValue(props:DisplayValueProps) {
+  /*
+  const [count, setCount] = useState(props.count);
+
+  useEffect(() =>{
+    setCount(count + 100);
+  }, [props.count])
+  */
+
 
   return (
     <div>
         <h1>Counter Function</h1>
-        <div>{count}</div>
+        <h2>{props.count + 100}</h2>
       </div>
-  );
+  ); 
 }
 
 
@@ -89,8 +129,7 @@ function App() {
 
   return (
     <>
-      <Counter />
-      <CounterFunction />
+      <UserList />
     </>
   )
 }
