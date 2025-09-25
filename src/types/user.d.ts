@@ -1,4 +1,7 @@
-
+export interface PageUser {
+  users: User[]
+  pagination?: Pagination
+}
 
 export interface User {
   _id: string
@@ -8,4 +11,15 @@ export interface User {
   username: string
   password: string
   __v: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Pagination {
+  currentPage: number
+  totalPages: number
+  totalUsers: number
+  usersPerPage: number
+  hasNextPage: boolean
+  hasPrevPage: boolean
 }

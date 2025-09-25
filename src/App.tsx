@@ -126,10 +126,11 @@ function DisplayValue(props:DisplayValueProps) {
 
 function App() {
 
-
+  const [toggle, setToggle] = useState(true);
   return (
     <>
-      <UserList />
+      
+      {toggle && <UserList />}
     </>
   )
 }
