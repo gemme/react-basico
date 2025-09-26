@@ -1,7 +1,7 @@
 
 import './App.css'
 import { Component, useState, useEffect } from 'react';
-import {UserList} from './components/UserList';
+import { Outlet, NavLink } from 'react-router';
 
 // class
 // stateful components
@@ -125,12 +125,14 @@ function DisplayValue(props:DisplayValueProps) {
 
 
 function App() {
-
-  const [toggle, setToggle] = useState(true);
   return (
     <>
-      
-      {toggle && <UserList />}
+    <nav>
+        <NavLink to='/users'>Users</NavLink>
+        <NavLink to='/'>Dashboard</NavLink>
+    </nav>
+     Dashboard 
+    <Outlet />
     </>
   )
 }

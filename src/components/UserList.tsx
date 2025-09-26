@@ -13,6 +13,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import {useState, useEffect} from 'react';
 import type { User} from '../types/user';
 import { UserService } from '../services/UserService';
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router';
 
 const columns: GridColDef[] = [
   { field: '_id', headerName: 'ID', width: 200 },
@@ -28,7 +30,7 @@ export const UserList = () =>  {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-
+    const navigate = useNavigate();
 
     // getUsers();
     useEffect(() => {
@@ -80,18 +82,20 @@ export const UserList = () =>  {
             return <span>No users found</span>
         }
         if(users.length > 0){
-            
-
-                        return (
-                            <div style={{ height: 300, width: '100%' }}>
-                                <DataGrid getRowId={(row) => row._id} rows={users} columns={columns} />
-                            </div>
-                        )
-                        
-            
+            return (
+                    <DataGrid getRowId={(row) => row._id} rows={users} columns={columns} />
+            )
         }
         return null;
     }
     
-    return renderContent();
+    return (
+        <>
+        <div style={{ height: 300, width: '100%' }}>
+            <Button onClick={()=> {
+                navigate('create');
+            }} variant="contained">Create User</Button>
+            {renderContent()}
+        </div>
+        </>);
 }
