@@ -1,13 +1,3 @@
-
-
-/*
-    const UserList2 = function (){
-
-        return(
-            <div></div>
-        )
-    }
-*/
 import type { GridColDef } from '@mui/x-data-grid';
 import { DataGrid } from '@mui/x-data-grid';
 import {useState, useEffect} from 'react';
@@ -18,10 +8,10 @@ import { useNavigate } from 'react-router';
 
 const columns: GridColDef[] = [
   { field: '_id', headerName: 'ID', width: 200 },
-  { field: 'name', headerName: 'Name', width: 300 },
-  { field: 'username', headerName: 'User Name', width: 300 },
-  { field: 'email', headerName: 'Email', width: 300 },
-  { field: 'dob', headerName: 'Date of birth', width: 300 },
+  { field: 'name', headerName: 'Name', width: 200 },
+  { field: 'username', headerName: 'User Name', width: 200 },
+  { field: 'email', headerName: 'Email', width: 200 },
+  { field: 'dob', headerName: 'Date of birth', width: 200 },
 ];
 
 
@@ -38,20 +28,6 @@ export const UserList = () =>  {
     async function getUsers(){
         setLoading(true);
         try{
-            /*
-            const response = await fetch('http://localhost:3000/api/users', {
-                method: "GET",
-                signal: controller.signal
-            });
-            const result = await response.json();
-            console.log('fetch users');
-            */
-            /*
-                {
-                    "users": [],
-                    "pagination":{}
-                }
-            */
             const pageUser = await user.getUsers()
             setUsers(pageUser.users);
         }catch(error){
@@ -76,26 +52,28 @@ export const UserList = () =>  {
             return <span>Loading...</span>
         }
         if(error){
-            return <span>{error}</span> 
+            return <span>{error}</span>
         }
         if(users.length === 0){
             return <span>No users found</span>
         }
         if(users.length > 0){
             return (
-                    <DataGrid getRowId={(row) => row._id} rows={users} columns={columns} />
+                <DataGrid getRowId={(row) => row._id} rows={users} columns={columns} />
             )
         }
         return null;
     }
-    
+
     return (
         <>
-        <div style={{ height: 300, width: '100%' }}>
+        <div style={{ height: 500, width: '80%', padding: '40px' }}>
             <Button onClick={()=> {
                 navigate('create');
             }} variant="contained">Create User</Button>
-            {renderContent()}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 500, width: '100%', marginTop: '20px' }}>
+                {renderContent()}
+            </div>
         </div>
         </>);
 }

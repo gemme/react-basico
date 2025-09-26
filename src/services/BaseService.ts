@@ -1,11 +1,3 @@
-
-/*
-{
-    propname: 'value'
-    }
-}
-*/
-
 interface Options {
     method?:'GET' | 'POST' | 'PUT' | 'DELETE';
     body?: BodyInit,

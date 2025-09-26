@@ -15,7 +15,7 @@ export const CreateUser = () => {
     const navigate = useNavigate();
     const createUser = async () =>{
         try{
-             const userService  = new UserService();
+            const userService  = new UserService();
             const result = await userService.createUser({
                 name,
                 dob,
@@ -49,9 +49,12 @@ export const CreateUser = () => {
         :
         <div style={{
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginTop: '20px',
       }}>
-        
+        <h2>Create User</h2>
+
         <TextField
           id="outlined-required"
           defaultValue={name}
@@ -98,7 +101,9 @@ export const CreateUser = () => {
             type='password'
         />
             
-        <Button onClick={()=> { createUser()}} variant="contained">Submit</Button>
+        <Button style={{
+            width: '250px',
+        }} onClick={()=> { createUser()}} variant="contained">Submit</Button>
       </div>
         }
       

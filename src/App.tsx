@@ -1,140 +1,110 @@
 
+import Box from '@mui/material/Box';
 import './App.css'
-import { Component, useState, useEffect } from 'react';
-import { Outlet, NavLink } from 'react-router';
+import { useState } from 'react';
+import { Outlet, NavLink, useNavigate } from 'react-router';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon';
+//import InboxIcon from '@mui/icons-material/Inbox';
+//import DraftsIcon from '@mui/icons-material/Drafts';
 
-// class
-// stateful components
-// smart components
+function App(){
+  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [title, setTitle] = useState('Dashboard');
+  const navigate = useNavigate();
 
-// stateless components
-// dumb components
-
-interface Props {}
-interface State {
-  count: number;
-}
-
-// click es un tipo de evento de usuario
-// scroll
-
-// evento timer
-// setTimeout
-// setInterval
-
-// evento de red
-// fetch
-
-// LEGACY React 18
-class Counter extends Component<Props, State>{
-
-  id: number | undefined =undefined;
-
-  constructor(props:Props){
-    super(props);
-    this.state = {
-      count : 0
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    index: number,
+  ) => {
+    setSelectedIndex(index);
+    if ((event.target as HTMLElement).innerText === 'Dashboard') {
+      setTitle('Dashboard');
+      navigate('/');
     }
-  }
+    if ((event.target as HTMLElement).innerText === 'Users') {
+      setTitle('Users');
+      navigate('/users');
+    }
+  };
 
-  componentWillUnmount(): void {
-    clearInterval(this.id);
-  }
+  return(
+    <div style={{
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'start',
+      height: '100vh',
+      width: '100vw',
+      boxSizing: 'border-box',
+      padding: '0',
+      margin: '0',
+      backgroundColor: 'lightgrey',
+    }}>
+      <div style={{
+        width: '200px',
+        height: '100%',
+        backgroundColor: 'white',
+        boxShadow: '2px 0 5px rgba(0,0,0,0.1)',
+        boxSizing: 'border-box',
+        padding: '20px',
+        margin: '0',
+        borderRight: '1px solid lightgrey',
+      }}>
+     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <List component="nav" aria-label="main mailbox folders">
+        <ListItemButton
+          selected={selectedIndex === 0}
+          onClick={(event) => handleListItemClick(event, 0)}
+        >
+          <ListItemIcon>
+            {/* <InboxIcon /> */}
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItemButton>
+        <ListItemButton
+          selected={selectedIndex === 1}
+          onClick={(event) => handleListItemClick(event, 1)}
+        >
+          <ListItemIcon>
+            {/* <DraftsIcon /> */}
+          </ListItemIcon>
+          <ListItemText primary="Users" />
+        </ListItemButton>
+      </List>
+      <Divider />
+    </Box>
+    </div>
 
-  componentDidMount(): void {
-    this.id = setInterval(() => {
-      this.setState({
-        count: this.state.count + 1
-      })
-    }, 1000);
-  }
+   
 
-  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
-    console.log('componentDidUpdate', this.id);
-    
-
-  }
-
-
-  render(){
-    return (
-      <div>
-        <h1>Counter</h1>
-        <h2>{this.state.count}</h2>
+    <div style={{
+        width: 'calc(100% - 200px)',
+        backgroundColor: 'white',
+        height: '100%',
+      }}>
+        <div style={{
+          width: '100%',
+          height: '60px',
+          boxSizing: 'border-box',
+          padding: '0 20px',
+          margin: '0',
+          borderBottom: '1px solid lightgrey',
+          display: 'flex',
+          alignItems: 'center',
+          fontSize: '20px',
+          fontWeight: 'bold',
+        }}>
+          {title}
+        </div>
+        <main>
+          <Outlet />
+        </main>
       </div>
-    )
-  }
-}
-
-// react 18 hooks
-
-// todos los componentes son funciones
-// hooks
-// 
-function CounterFunction (){
-  //setVariable
-  // destructuring
-  const [count, setCount] = useState(100);
-
-  // componentDidMount
-  useEffect(()=>{
-    const id = setInterval(()=> {
-      setCount(count => count + 100);
-    }, 1000);
-
-    // componentWillUnmount
-    return () => {
-      clearInterval(id);
-    }
-    // componentDidMount
-  }, []);
-
-
-
-  useEffect(()=>{
-    console.log('componentDidUpdate::function');
-  }, [ count  ]);
-
-  return (
-    <DisplayValue count={count}/>
+    </div>
   );
-}
-
-interface DisplayValueProps {
-  // required
-  count: number;
-}
-
-function DisplayValue(props:DisplayValueProps) {
-  /*
-  const [count, setCount] = useState(props.count);
-
-  useEffect(() =>{
-    setCount(count + 100);
-  }, [props.count])
-  */
-
-
-  return (
-    <div>
-        <h1>Counter Function</h1>
-        <h2>{props.count + 100}</h2>
-      </div>
-  ); 
-}
-
-
-function App() {
-  return (
-    <>
-    <nav>
-        <NavLink to='/users'>Users</NavLink>
-        <NavLink to='/'>Dashboard</NavLink>
-    </nav>
-     Dashboard 
-    <Outlet />
-    </>
-  )
 }
 
 export default App
