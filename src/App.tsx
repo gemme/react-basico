@@ -2,7 +2,7 @@
 import Box from '@mui/material/Box';
 import './App.css'
 import { useState } from 'react';
-import { Outlet, NavLink, useNavigate } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -101,7 +101,7 @@ function App(){
             fontSize: '20px',
             fontWeight: 'bold',
           }}>
-            {title} Counter is : {count}
+            {title} Global State Counter is : {count}
           </div>
           <main>
             <Outlet />  
