@@ -1,10 +1,9 @@
 import type { GridColDef } from '@mui/x-data-grid';
 import { DataGrid } from '@mui/x-data-grid';
-import {useState, useEffect} from 'react';
-import type { User} from '../types/user';
-import { UserService } from '../services/UserService';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router';
+import { useGetUsers } from '../hooks/useGetUsers';
+import { useDispatch } from 'react-redux';
 
 const columns: GridColDef[] = [
   { field: '_id', headerName: 'ID', width: 200 },
@@ -16,36 +15,9 @@ const columns: GridColDef[] = [
 
 
 export const UserList = () =>  {
-
-    const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
     const navigate = useNavigate();
-
-    // getUsers();
-    useEffect(() => {
-    const user = new UserService();
-    async function getUsers(){
-        setLoading(true);
-        try{
-            const pageUser = await user.getUsers()
-            setUsers(pageUser.users);
-        }catch(error){
-            console.log(error);
-            if(error instanceof Error){
-                setError(error.message);
-            }
-            setError('Failed loading...');
-        } finally{
-            setLoading(false);
-        }
-        
-    }
-
-        getUsers();
-    
-    }, [/* no dependecies / mounting */]);
-
+    const {users, loading, error} = useGetUsers();
+    const dispatch = useDispatch();
 
     const renderContent = () => {
         if(loading){
@@ -71,6 +43,11 @@ export const UserList = () =>  {
             <Button onClick={()=> {
                 navigate('create');
             }} variant="contained">Create User</Button>
+             <Button onClick={()=> {
+               dispatch({
+                type: 'INCREMENT_COUNT'
+               });
+            }} variant="contained">Increment</Button>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 500, width: '100%', marginTop: '20px' }}>
                 {renderContent()}
             </div>

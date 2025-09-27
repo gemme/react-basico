@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { useState} from 'react';
 import { UserService } from '../services/UserService';
 import { useNavigate } from 'react-router';
+import {useDispatch} from 'react-redux';
 
 export const CreateUser = () => {
     const [error, setError] = useState('');
@@ -13,6 +14,8 @@ export const CreateUser = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const createUser = async () =>{
         try{
             const userService  = new UserService();
@@ -54,7 +57,11 @@ export const CreateUser = () => {
         marginTop: '20px',
       }}>
         <h2>Create User</h2>
-
+        <Button onClick={()=> {
+               dispatch({
+                type: 'DECREMENT_COUNT'
+               });
+            }} variant="contained">Decrement</Button>
         <TextField
           id="outlined-required"
           defaultValue={name}

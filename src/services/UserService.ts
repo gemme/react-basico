@@ -15,4 +15,8 @@ export class UserService extends BaseService{
     createUser(user: User){
         return this.post({path:'users', body: JSON.stringify(user)});
     }
+
+    login(username: string, password: string){
+        return this.post({path: 'auth/login', body: JSON.stringify({username, password})});
+    }
 }
